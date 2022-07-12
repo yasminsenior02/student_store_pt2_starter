@@ -5,8 +5,9 @@ const orderModel = require("../models/order");
 
 orderRouter.get("/", requireAuthenticatedUser, async (req, res, next) => {
   try {
-    const listorders = await orderModel.listOrdersForUser(req.body);
-    return res.status(200).json({ listorders });
+    const { user } = res.locals;
+    const listorders = await orderModel.listOrdersForUser(user);
+    return res.status(200).json({ listorders: listorders });
   } catch (err) {
     next(err);
   }
@@ -14,8 +15,9 @@ orderRouter.get("/", requireAuthenticatedUser, async (req, res, next) => {
 
 orderRouter.post("/", requireAuthenticatedUser, async (req, res, next) => {
   try {
-    const createorder = await orderModel.createOrder(req.body);
-    return res.status(200).json({ createorder });
+    const { user } = res.locals;
+    const createorder = await orderModel.createOrder(user);
+    return res.status(200).json({ createorder: createorder });
   } catch (err) {
     next(err);
   }
